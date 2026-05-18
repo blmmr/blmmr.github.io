@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sasha — @blmmr</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: "Noto Sans", sans-serif;
+                background: #e8f4fd;
+                min-height: 100vh;
+                color: #222;
+            }
+
+            /* NAV */
+            nav {
+                background: #fff;
+                border-bottom: 1px solid #e1e8ed;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 24px;
+                height: 52px;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+            nav .nav-links {
+                display: flex;
+                gap: 32px;
+                align-items: center;
+            }
+            nav .nav-links a {
+                text-decoration: none;
+                color: #555;
+                font-size: 14px;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 4px 0;
+                border-bottom: 2px solid transparent;
+                transition: color 0.15s;
+            }
+            nav .nav-links a:hover {
+                color: #1da1f2;
+            }
+            nav .nav-logo {
+                color: #1da1f2;
+                font-size: 24px;
+            }
+            nav .tweet-btn {
+                background: #1da1f2;
+                color: #fff;
+                border: none;
+                border-radius: 20px;
+                padding: 8px 20px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.15s;
+            }
+            nav .tweet-btn:hover {
+                background: #1a91da;
+            }
+
+            /* LAYOUT */
+            .container {
+                max-width: 990px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 290px 1fr;
+                gap: 20px;
+                padding: 20px 16px;
+                align-items: start;
+            }
+
+            /* SIDEBAR */
+            .sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            .profile-card {
+                background: #fff;
+                border-radius: 12px;
+                border: 1px solid #e1e8ed;
+                overflow: hidden;
+            }
+            .profile-banner {
+                height: 80px;
+                background: linear-gradient(135deg, #fce4ec, #f8bbd0, #f3e5f5);
+            }
+            .profile-body {
+                padding: 0 16px 16px;
+            }
+            .avatar-wrap {
+                margin-top: -36px;
+                margin-bottom: 10px;
+            }
+            .avatar-wrap img,
+            .avatar-wrap .avatar-placeholder {
+                width: 72px;
+                height: 72px;
+                border-radius: 50%;
+                border: 3px solid #fff;
+                background: #f48fb1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 28px;
+                object-fit: cover;
+            }
+            .profile-name {
+                font-size: 18px;
+                font-weight: 600;
+                color: #111;
+            }
+            .profile-handle {
+                font-size: 14px;
+                color: #657786;
+                margin-bottom: 10px;
+            }
+            .profile-bio {
+                font-size: 14px;
+                color: #333;
+                line-height: 1.5;
+                margin-bottom: 12px;
+            }
+            .profile-meta {
+                font-size: 13px;
+                color: #657786;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                margin-bottom: 14px;
+            }
+            .profile-meta span {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .stats {
+                display: flex;
+                gap: 20px;
+                padding: 10px 0;
+                border-top: 1px solid #e1e8ed;
+                border-bottom: 1px solid #e1e8ed;
+                margin-bottom: 14px;
+            }
+            .stat {
+                text-align: center;
+            }
+            .stat strong {
+                display: block;
+                font-size: 16px;
+                font-weight: 600;
+                color: #111;
+            }
+            .stat span {
+                font-size: 12px;
+                color: #657786;
+            }
+
+            .follow-btn {
+                width: 100%;
+                background: transparent;
+                color: #1da1f2;
+                border: 1px solid #1da1f2;
+                border-radius: 20px;
+                padding: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.15s;
+            }
+            .follow-btn:hover {
+                background: #e8f5fe;
+            }
+
+            /* WHO TO FOLLOW */
+            .suggestions-card {
+                background: #fff;
+                border-radius: 12px;
+                border: 1px solid #e1e8ed;
+                padding: 14px 16px;
+            }
+            .suggestions-card h3 {
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 12px;
+                color: #111;
+            }
+            .suggest-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 8px 0;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            .suggest-item:last-child {
+                border-bottom: none;
+            }
+            .suggest-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                font-weight: 600;
+            }
+            .suggest-info {
+                flex: 1;
+                min-width: 0;
+            }
+            .suggest-info strong {
+                font-size: 14px;
+                display: block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .suggest-info span {
+                font-size: 12px;
+                color: #657786;
+            }
+            .mini-follow {
+                background: transparent;
+                border: 1px solid #1da1f2;
+                color: #1da1f2;
+                border-radius: 14px;
+                padding: 4px 12px;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                white-space: nowrap;
+                transition: all 0.15s;
+            }
+            .mini-follow:hover {
+                background: #e8f5fe;
+            }
+
+            /* MAIN FEED */
+            .feed {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .feed-tabs {
+                background: #fff;
+                border-radius: 12px 12px 0 0;
+                border: 1px solid #e1e8ed;
+                border-bottom: none;
+                display: flex;
+            }
+            .feed-tabs a {
+                flex: 1;
+                text-align: center;
+                padding: 14px 0;
+                font-size: 14px;
+                font-weight: 500;
+                color: #657786;
+                text-decoration: none;
+                border-bottom: 3px solid transparent;
+                transition: color 0.15s;
+            }
+            .feed-tabs a.active {
+                color: #1da1f2;
+                border-bottom: 3px solid #1da1f2;
+            }
+            .feed-tabs a:hover {
+                background: #f8f9fa;
+                color: #1da1f2;
+            }
+
+            /* TWEET */
+            .tweet {
+                background: #fff;
+                border: 1px solid #e1e8ed;
+                border-top: none;
+                padding: 14px 16px;
+                display: flex;
+                gap: 12px;
+                transition: background 0.1s;
+            }
+            .tweet:hover {
+                background: #f9fbfc;
+            }
+            .tweet:last-child {
+                border-radius: 0 0 12px 12px;
+            }
+            .tweet-avatar {
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                flex-shrink: 0;
+                object-fit: cover;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                background: #f48fb1;
+            }
+            .tweet-body {
+                flex: 1;
+                min-width: 0;
+            }
+            .tweet-header {
+                display: flex;
+                align-items: baseline;
+                gap: 6px;
+                flex-wrap: wrap;
+                margin-bottom: 4px;
+            }
+            .tweet-header strong {
+                font-size: 15px;
+                font-weight: 600;
+                color: #111;
+            }
+            .tweet-header .handle {
+                font-size: 14px;
+                color: #657786;
+            }
+            .tweet-header .dot {
+                color: #aaa;
+                font-size: 12px;
+            }
+            .tweet-header .date {
+                font-size: 13px;
+                color: #aaa;
+            }
+            .tweet-text {
+                font-size: 15px;
+                color: #333;
+                line-height: 1.6;
+                margin-bottom: 10px;
+            }
+            .tweet-actions {
+                display: flex;
+                gap: 24px;
+            }
+            .tweet-actions button {
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: #657786;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                padding: 4px 0;
+                transition: color 0.15s;
+                border-radius: 4px;
+            }
+            .tweet-actions button:hover.like {
+                color: #e0245e;
+            }
+            .tweet-actions button:hover.retweet {
+                color: #17bf63;
+            }
+            .tweet-actions button:hover.reply {
+                color: #1da1f2;
+            }
+
+            /* ICONS (inline svg) */
+            .icon {
+                width: 16px;
+                height: 16px;
+                vertical-align: middle;
+                fill: currentColor;
+            }
+
+            /* QUOTE TWEET */
+            .quote-box {
+                border: 1px solid #e1e8ed;
+                border-radius: 10px;
+                padding: 10px 14px;
+                margin-top: 8px;
+                margin-bottom: 10px;
+                background: #f9fbfc;
+                font-size: 14px;
+                color: #444;
+                line-height: 1.6;
+            }
+            .quote-box .quote-title {
+                font-style: italic;
+                color: #888;
+                font-size: 13px;
+                margin-bottom: 4px;
+            }
+
+            @media (max-width: 700px) {
+                .container {
+                    grid-template-columns: 1fr;
+                }
+                .sidebar {
+                    order: 2;
+                }
+                .feed {
+                    order: 1;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <div class="nav-links">
+                <a href="#">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                    </svg>
+                    Home
+                </a>
+                <a href="#">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5-5.917V4a1 1 0 10-2 0v1.083A6 6 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                        />
+                    </svg>
+                    Notifications
+                </a>
+                <a href="#">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                        />
+                    </svg>
+                    Messages
+                </a>
+            </div>
+            <span class="nav-logo">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="#1da1f2">
+                    <path
+                        d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"
+                    />
+                </svg>
+            </span>
+            <button class="tweet-btn">✏️ Tweet</button>
+        </nav>
+
+        <div class="container">
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <div class="profile-card">
+                    <div class="profile-banner"></div>
+                    <div class="profile-body">
+                        <div class="avatar-wrap">
+                            <img src="hk_avatar.jpeg" alt="Sasha" />
+                        </div>
+                        <div class="profile-name">Sasha</div>
+                        <div class="profile-handle">@blmrr</div>
+                        <div class="profile-bio">
+                            python - react - node.js - ci/cd - terraform - gcp
+                        </div>
+                        <div class="profile-meta">
+                            <span>📍 Stockholm </span>
+                            <span>🗓️ Joined August 2023</span>
+                        </div>
+                        <div class="stats">
+                            <div class="stat">
+                                <strong>3</strong><span>Tweets</span>
+                            </div>
+                            <div class="stat">
+                                <strong>12</strong><span>Following</span>
+                            </div>
+                            <div class="stat">
+                                <strong>12</strong><span>Followers</span>
+                            </div>
+                        </div>
+                        <button class="follow-btn">+ Follow</button>
+                    </div>
+                </div>
+
+                <div class="suggestions-card">
+                    <h3>You may also like</h3>
+                    <div class="suggest-item">
+                        <div
+                            class="suggest-avatar"
+                            style="background: #b2ebf2; color: #00838f"
+                        >
+                            AR
+                        </div>
+                        <div class="suggest-info">
+                            <strong>Uncle Bob Martin</strong>
+                            <span>@unclebobmartin</span>
+                        </div>
+                        <button class="mini-follow">Follow</button>
+                    </div>
+                    <div class="suggest-item">
+                        <div
+                            class="suggest-avatar"
+                            style="background: #ffe0b2; color: #e65100"
+                        >
+                            BL
+                        </div>
+                        <div class="suggest-info">
+                            <strong>ThePrimeagen</strong>
+                            <span>@ThePrimeagen</span>
+                        </div>
+                        <button class="mini-follow">Follow</button>
+                    </div>
+                    <div class="suggest-item">
+                        <div
+                            class="suggest-avatar"
+                            style="background: #f3e5f5; color: #7b1fa2"
+                        >
+                            AK
+                        </div>
+                        <div class="suggest-info">
+                            <strong>The Matrix.org Foundation</strong>
+                            <span>@matrixdotorg</span>
+                        </div>
+                        <button class="mini-follow">Follow</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- FEED -->
+            <main class="feed">
+                <div class="feed-tabs">
+                    <a href="#" class="active">Tweets</a>
+                    <a href="#">Tweets &amp; replies</a>
+                    <a href="#">Photos &amp; videos</a>
+                </div>
+
+                <!-- Tweet 1 -->
+                <article class="tweet">
+                    <img
+                        class="tweet-avatar"
+                        src="hk_avatar.jpeg"
+                        alt="Sasha"
+                    />
+                    <div class="tweet-body">
+                        <div class="tweet-header">
+                            <strong>Sasha</strong>
+                            <span class="handle">@blmmr</span>
+                            <span class="dot">·</span>
+                            <span class="date">May 18, 2026</span>
+                        </div>
+                        <div class="tweet-text">
+                            Hey and welcome to my page. Intentional tech is great
+                        </div>
+                        <div class="tweet-actions">
+                            <button class="reply">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path
+                                        d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                                    />
+                                </svg>
+                                3
+                            </button>
+                            <button class="retweet">
+                                <svg
+                                    class="icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4m14 2v2a4 4 0 01-4 4H3"
+                                    />
+                                </svg>
+                                7
+                            </button>
+                            <button class="like">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path
+                                        d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+                                    />
+                                </svg>
+                                5
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Tweet 2 -->
+                <article class="tweet">
+                    <img
+                        class="tweet-avatar"
+                        src="hk_avatar.jpeg"
+                        alt="Sasha"
+                    />
+                    <div class="tweet-body">
+                        <div class="tweet-header">
+                            <strong>Sasha</strong>
+                            <span class="handle">@blmmr</span>
+                            <span class="dot">·</span>
+                            <span class="date">May 13, 2026</span>
+                        </div>
+                        <div class="tweet-text">
+                            <a href="https://www.githubstatus.com" target="_blank" rel="noopener noreferrer">https://www.githubstatus.com</a>
+                        </div>
+                        <div class="tweet-actions">
+                            <button class="reply">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path
+                                        d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                                    />
+                                </svg>
+                                0
+                            </button>
+                            <button class="retweet"
+                                <svg
+                                    class="icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4m14 2v2a4 4 0 01-4 4H3"
+                                    />
+                                </svg>
+                                2
+                            </button>
+                            <button class="like">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path
+                                        d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+                                    />
+                                </svg>
+                                9
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Tweet 3 with quote box -->
+                <article class="tweet">
+                    <img
+                        class="tweet-avatar"
+                        src="hk_avatar.jpeg"
+                        alt="Sasha"
+                    />
+                    <div class="tweet-body">
+                        <div class="tweet-header">
+                            <strong>Sasha</strong>
+                            <span class="handle">@blmmr</span>
+                            <span class="dot">·</span>
+                            <span class="date">April 19, 2026</span>
+                        </div>
+                        <div class="quote-box">
+                            <div class="quote-title">The Clean Code</div>
+                            One might argue that a book about code is somehow
+                            behind the times—that code is no longer the issue;
+                            that we should be concerned about models and
+                            requirements instead. Indeed some have suggested
+                            that we are close to the end of code. That soon all
+                            code will be generated instead of written. That
+                            programmers simply won’t be needed because business
+                            people will generate programs from specifications.
+                            Nonsense! We will never be rid of code, because code
+                            represents the details of the requirements. At some
+                            level those details cannot be ignored or abstracted;
+                            they have to be specified. And specifying
+                            requirements in such detail that a machine can
+                            execute them is programming. Such a specification is
+                            code.
+                        </div>
+                        <div class="tweet-actions">
+                            <button class="reply">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path
+                                        d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                                    />
+                                </svg>
+                                6
+                            </button>
+                            <button class="retweet">
+                                <svg
+                                    class="icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4m14 2v2a4 4 0 01-4 4H3"
+                                    />
+                                </svg>
+                                1
+                            </button>
+                            <button class="like">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path
+                                        d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+                                    />
+                                </svg>
+                                4
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </main>
+        </div>
+    </body>
+</html>
